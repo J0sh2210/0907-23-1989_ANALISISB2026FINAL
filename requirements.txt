@@ -1,0 +1,10 @@
+# Dependencias de la Aplicación Principal (main.py)
+fastapi
+uvicorn
+sqlalchemy
+pyodbc
+pydantic
+
+# Dependencias para Pruebas Unitarias (test_main.py)
+pytest
+httpx
