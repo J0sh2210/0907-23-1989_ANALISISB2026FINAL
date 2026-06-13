@@ -221,14 +221,7 @@ class Specialty(Base):
     Id = Column(Integer, primary_key=True, index=True)
     Name = Column(String)
 
-# Asegúrate de que tu IncidentType tenga el campo Name (si no lo tenía):
-# class IncidentType(Base):
-#     __tablename__ = "IncidentTypes"
-#     Id = Column(Integer, primary_key=True, index=True)
-#     Name = Column(String)
-#     SpecialtyId = Column(Integer)
 
-# --- ESQUEMAS PYDANTIC (Para validar datos de entrada) ---
 class SpecialtyCreate(BaseModel):
     Name: str
 
