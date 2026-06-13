@@ -1,14 +1,14 @@
-FROM python:3.10-slim
+# Usamos Bullseye (Debian 11) para evitar el bloqueo de firmas SHA1
+FROM python:3.10-slim-bullseye
 
 # 1. Instalar herramientas del sistema necesarias
 RUN apt-get update && apt-get install -y curl gnupg2 apt-transport-https unixodbc-dev
 
-# 2. Registrar el repositorio oficial de Microsoft para Debian 12 (Método moderno)
-RUN curl -sSL -O https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb \
-    && dpkg -i packages-microsoft-prod.deb \
-    && rm packages-microsoft-prod.deb
+# 2. Registrar el repositorio oficial de Microsoft para Debian 11
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
+    && echo "deb [arch=amd64,arm64,armhf signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/debian/11/prod bullseye main" > /etc/apt/sources.list.d/mssql-release.list
 
-# 3. Actualizar los nuevos repositorios e instalar el driver de SQL Server
+# 3. Actualizar e instalar el driver de SQL Server
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17
 
 WORKDIR /app
